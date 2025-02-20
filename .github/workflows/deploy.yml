@@ -20,6 +20,7 @@ jobs:
           </body>
           </html>" > dist/index.html
           touch dist/.nojekyll  # 关键文件
+          ls -la dist
 
       - uses: JamesIves/github-pages-deploy-action@v4.5.0
         with:
