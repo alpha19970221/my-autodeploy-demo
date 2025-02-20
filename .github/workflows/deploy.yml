@@ -1,23 +1,16 @@
-name: Auto Deploy
-
-on:
-  push:
-    branches: ["main"]
-
+name: Deployment
+on: [push]
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
-
     steps:
-
-      - name: Checkout
-        uses: actions/checkout@v4
-
+      - uses: actions/checkout@v4
+      
       - name: Build
-        run: echo "模拟构建过程..." && ls -la
-
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
+        run: mkdir -p dist && echo "Hello World" > dist/index.html
+        
+      - uses: JamesIves/github-pages-deploy-action@v4.5.0
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./
+          github_token: ${{ secrets.GITHUB_TOKEN }}  # 使用系统自动生成的token
+          branch: gh-pages
+          folder: dist
