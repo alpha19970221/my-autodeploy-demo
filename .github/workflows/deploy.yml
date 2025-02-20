@@ -8,15 +8,24 @@ jobs:
       
       - name: Build
         run: |
-          mkdir -p dist 
-          echo "Hello World" > dist/index.html
-          echo "/* 构建时间：$(date) */" >> dist/index.html  # 添加时间戳验证部署
-        
+          mkdir -p dist
+          echo "<!DOCTYPE html>
+          <html>
+          <body>
+          <h1>部署验证 $(date)</h1>
+          <p>User-Agent: <span id='ua'></span></p>
+          <script>
+            document.getElementById('ua').textContent = navigator.userAgent;
+          </script>
+          </body>
+          </html>" > dist/index.html
+          touch dist/.nojekyll  # 关键文件
+
       - uses: JamesIves/github-pages-deploy-action@v4.5.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}  # 关键修正：参数名改为 token
+          token: ${{ secrets.GITHUB_TOKEN }}
           branch: gh-pages
           folder: dist
           clean-exclude: |
-            CNAME
             .nojekyll
+            CNAME
