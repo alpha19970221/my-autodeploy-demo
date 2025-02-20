@@ -1,0 +1,23 @@
+name: Auto Deploy
+
+on:
+  push:
+    branches: ["main"]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build
+        run: echo "模拟构建过程..." && ls -la
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./
