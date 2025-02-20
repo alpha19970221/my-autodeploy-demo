@@ -7,10 +7,16 @@ jobs:
       - uses: actions/checkout@v4
       
       - name: Build
-        run: mkdir -p dist && echo "Hello World" > dist/index.html
+        run: |
+          mkdir -p dist 
+          echo "Hello World" > dist/index.html
+          echo "/* 构建时间：$(date) */" >> dist/index.html  # 添加时间戳验证部署
         
       - uses: JamesIves/github-pages-deploy-action@v4.5.0
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}  # 使用系统自动生成的token
+          token: ${{ secrets.GITHUB_TOKEN }}  # 关键修正：参数名改为 token
           branch: gh-pages
           folder: dist
+          clean-exclude: |
+            CNAME
+            .nojekyll
